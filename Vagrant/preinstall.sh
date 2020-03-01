@@ -3,12 +3,6 @@ apt update
 #-----Install utilities-----#
 apt install -y zip unzip
 
-#-----Установка Swapspace
-# занимается файлом подкачки в системе
-# нужен для разруливания падений по нехватке памяти
-# т.к. например, Composer, довольно прожорливый, и ему не хватает 1 гига ОЗУ
-#apt install -y swapspace
-
 #-----Install PHP v7.4 with extensions-----#
 add-apt-repository ppa:ondrej/php
 apt update
@@ -42,18 +36,20 @@ wget -c https://dev.mysql.com/get/mysql-apt-config_0.8.14-1_all.deb
 dpkg -i mysql-apt-config_0.8.14-1_all.deb
 apt update
 apt install -y mysql-server
-rm mysql-apt-config_0.8.14-1_all.deb
 
 #-----Install Nginx with basic config-----#
 apt install -y nginx
-cp -f /var/www/project/Vagrant/nginx.conf /etc/nginx/nginx.conf
-cp -f /var/www/project/Vagrant/project.conf /etc/nginx/conf.d/project.conf
+cp -f /var/www/config/nginx.conf /etc/nginx/nginx.conf
+cp -f /var/www/config/project.conf /etc/nginx/conf.d/project.conf
 nginx -s reload
 
-#-----Установка зависимостей проекта
-# устанавливаем с помощью Composer необходимые для Laravel (и проекта) библиотеки
-# даем права на владение папкой проекта веб-серверу, чтобы мог создавать/перезаписывать файлы
-#cd /var/www/eventris
-#cp ./.env.example ./.env
-#composer install --no-scripts
-#chown -R www-data:www-data /var/www/eventris/
+#-----Install Symfony v4.4-----#
+FILE=/var/www/project/public/index.php
+if [ -f "$FILE" ]; then
+    echo "Project already exists!"
+else
+    cd /var/www
+    rm project/.gitignore
+    composer create-project symfony/website-skeleton:^4.4 project
+fi
+chown -R www-data:www-data /var/www/project
