@@ -1,6 +1,6 @@
-#LocalDevEnvironment
+# LocalDevEnvironment
 This repository contains configuration of local development environment for Symfony projects based on Virtual Machine.
-##Prerequisites
+## Prerequisites
 To start working with environment, you need to install software above:
 * [VirtualBox](https://download.virtualbox.org/virtualbox/6.0.14/VirtualBox-6.0.14-133895-Win.exe)
 * [Vagrant](https://releases.hashicorp.com/vagrant/2.2.6/vagrant_2.2.6_x86_64.msi)
